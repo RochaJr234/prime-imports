@@ -1,4 +1,4 @@
-/* =========================================================
+a/* =========================================================
    PRIME IMPORTS
    STYLE.CSS
    ESTILO PRINCIPAL DO SISTEMA
@@ -5802,5 +5802,35 @@ textarea:focus-visible{
     .btn-receber-mini,
     .receber-venda-acoes .btn-quitar-total{
         background:linear-gradient(135deg,#C98263,#A95D43)!important;
+    }
+}
+
+/* CORREÇÃO — MODAL DE DESPESAS NO CELULAR */
+.despesas-modal {
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+}
+
+.despesas-modal-foot {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+}
+
+@media (max-width: 520px) {
+    .despesas-modal-overlay {
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+
+    .despesas-modal {
+        max-height: calc(100vh - 20px);
+        margin: 10px 0;
+    }
+
+    .despesas-modal-foot {
+        position: sticky;
+        bottom: 0;
+        background: #f8fafc;
     }
 }
