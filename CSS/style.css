@@ -619,9 +619,9 @@ button {
 .content {
     width: 100%;
 
-    max-width: 1500px;
+    max-width: none;
 
-    margin: 0 auto;
+    margin: 0;
 
     padding: 28px 30px 45px;
 }
