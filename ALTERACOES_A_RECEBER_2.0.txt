@@ -1,0 +1,14 @@
+PRIME IMPORTS — A RECEBER 2.0
+
+Implementado sobre a base PRIME_IMPORTS_1.0_BASE.
+
+- Interface de A Receber reorganizada por cliente/venda.
+- Parcelas agrupadas dentro de cada venda.
+- Busca por cliente, venda, ID e parcela.
+- Filtros: Em aberto, Vencidos e Recebidos.
+- Botão Receber por parcela.
+- Quitar tudo por venda quando aplicável.
+- Resumo da venda: total, recebido e saldo em aberto.
+- Layout responsivo para celular e computador.
+- Identidade visual Prime Imports: dourado, branco e cinza.
+- Lógica existente de recebimento, modais e armazenamento preservada.

@@ -1,0 +1,46 @@
+{
+  "name": "Prime Imports",
+  "short_name": "Prime Imports",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FBFAF7",
+  "theme_color": "#B8860B",
+  "icons": [
+    {
+      "src": "images/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "id": "./",
+  "scope": "./",
+  "orientation": "any",
+  "description": "Sistema de controle interno Prime Imports",
+  "shortcuts": [
+    {
+      "name": "Nova venda",
+      "short_name": "Vender",
+      "url": "./index.html#vendas",
+      "icons": [
+        {
+          "src": "images/icon.png",
+          "sizes": "1024x1024",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Produtos",
+      "short_name": "Produtos",
+      "url": "./index.html#produtos",
+      "icons": [
+        {
+          "src": "images/icon.png",
+          "sizes": "1024x1024",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

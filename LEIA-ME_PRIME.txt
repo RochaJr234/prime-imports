@@ -1,0 +1,10 @@
+PRIME IMPORTS — SISTEMA DE CONTROLE
+
+Base adaptada a partir do sistema J.C Imports 3.1.
+
+Segmentos: perfumes árabes, iPhone, fones de ouvido, drones, relógios e outros importados.
+Identidade visual: dourado, branco e cinza.
+PWA: preparado para computador e celular.
+Nuvem: utiliza chaves e tabela próprias (prime_imports_*) para evitar mistura com a base anterior.
+
+IMPORTANTE: configure o projeto Supabase da Prime Imports e execute NUVEM_SUPABASE_SETUP.sql antes de ativar a sincronização em nuvem.
