@@ -623,16 +623,6 @@ button {
     padding: 28px 30px 45px;
 }
 
-@media (min-width: 1101px) {
-    .main-area .content {
-        width: 100%;
-        max-width: 1500px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 24px;
-        padding-right: 24px;
-    }
-}
 /* =========================================================
    CABEÇALHO DAS PÁGINAS
    ========================================================= */
@@ -5840,3 +5830,143 @@ textarea:focus-visible{
         background: #f8fafc;
     }
 }
+
+/* =========================================================
+   PRIME IMPORTS — CORREÇÃO FINAL DO LAYOUT DESKTOP/MOBILE
+   Mantém os estilos existentes e corrige somente a estrutura.
+   ========================================================= */
+
+/* A área principal começa exatamente depois do menu lateral. */
+.main-area{
+    width:auto !important;
+    min-width:0 !important;
+    max-width:none !important;
+    min-height:100vh !important;
+    margin-left:var(--sidebar-width) !important;
+    margin-right:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    overflow-x:hidden !important;
+}
+
+/* O conteúdo ocupa toda a largura disponível do painel principal. */
+.main-area > .content,
+.content{
+    width:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    box-sizing:border-box !important;
+}
+
+/* Todos os blocos principais do dashboard ficam limitados ao painel. */
+.main-area .page,
+.main-area .dashboard-welcome,
+.main-area .dashboard-main-hero,
+.main-area .dashboard-cards,
+.main-area .dashboard-grid,
+.main-area .dashboard-bottom-grid,
+.main-area .dashboard-brand-panel,
+.main-area .dashboard-quick-panel,
+.main-area .dashboard-performance-panel,
+.main-area .dashboard-activity-panel,
+.main-area .dashboard-recent-panel{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+}
+
+/* Impede grids/flex de estourarem para baixo ou para a direita. */
+.main-area .dashboard-cards > *,
+.main-area .dashboard-grid > *,
+.main-area .dashboard-bottom-grid > *,
+.main-area .dashboard-quick-grid > *,
+.main-area .dashboard-profit-grid > *{
+    min-width:0;
+    max-width:100%;
+    box-sizing:border-box;
+}
+
+/* Hero principal sempre acompanha a largura disponível. */
+.main-area .dashboard-main-hero{
+    width:100%;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+}
+
+/* Topbar também fica presa à largura real da área principal. */
+.main-area > .topbar{
+    width:100%;
+    max-width:none;
+    box-sizing:border-box;
+}
+
+/* Desktop: 250px do menu + restante da tela para o conteúdo. */
+@media (min-width:1101px){
+    .main-area{
+        margin-left:250px !important;
+        width:calc(100% - 250px) !important;
+    }
+
+    .main-area > .content,
+    .main-area .content{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        padding:28px 30px 45px !important;
+    }
+}
+
+/* Tablet e celular: o menu deixa de ocupar espaço lateral. */
+@media (max-width:1100px){
+    .main-area{
+        width:100% !important;
+        max-width:100% !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+    }
+
+    .main-area > .content,
+    .main-area .content{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+}
+
+/* Garante que o menu fixo nunca seja coberto pelo painel em desktop. */
+@media (min-width:1101px){
+    .sidebar{
+        left:0 !important;
+        width:250px !important;
+        z-index:3000 !important;
+    }
+}
+
+/* Correção adicional para elementos posicionados do dashboard. */
+.dashboard-main-copy,
+.dashboard-main-logo,
+.dashboard-growth{
+    box-sizing:border-box;
+}
+
+@media (max-width:900px){
+    .main-area > .content,
+    .main-area .content{
+        padding:20px 16px 30px !important;
+    }
+}
+
+@media (max-width:430px){
+    .main-area > .content,
+    .main-area .content{
+        padding:17px 13px 28px !important;
+    }
+}
+
