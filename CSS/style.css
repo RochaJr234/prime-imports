@@ -623,7 +623,16 @@ button {
     padding: 28px 30px 45px;
 }
 
-
+@media (min-width: 1101px) {
+    .main-area .content {
+        width: 100%;
+        max-width: 1500px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
 /* =========================================================
    CABEÇALHO DAS PÁGINAS
    ========================================================= */
