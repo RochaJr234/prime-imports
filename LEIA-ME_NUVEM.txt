@@ -13,10 +13,3 @@ O cartão de sincronização está inserido diretamente no HTML; ele não depend
 
 
 VERSAO FINAL DEFINITIVO: navegação da tela Configurações independente do app.js.
-
-
-CONFIGURAÇÃO PRIME_IMPORTS
-- Projeto Supabase: Prime_Imports
-- URL: https://hwokttvlmpkaroypbgat.supabase.co
-- A chave pública está configurada no sistema.
-- Não armazenar nem compartilhar senhas do banco ou service_role/secret keys.

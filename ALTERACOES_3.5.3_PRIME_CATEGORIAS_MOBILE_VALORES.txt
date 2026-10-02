@@ -1,0 +1,10 @@
+PRIME IMPORTS — ATUALIZAÇÃO 3.5.3
+
+- Pedidos adicionados com layout responsivo para celular.
+- Pedidos separados de vendas e estoque.
+- Categorias de produtos preservadas e compras organizadas em pastas virtuais por categoria.
+- Totais de compras e pedidos arredondados em centavos.
+- Compras passam a registrar a categoria do produto.
+- Proteção de primeiro acesso na nuvem: aparelho vazio não sobrescreve nuvem com dados.
+- Backup/restauração inclui pedidos.
+- Mantida a URL/configuração existente do Supabase do Prime Imports.

@@ -29,7 +29,9 @@
 
         configuracoes: "prime_imports_configuracoes",
 
-        compras: "prime_imports_compras"
+        compras: "prime_imports_compras",
+
+        pedidos: "prime_imports_pedidos"
 
     };
 
@@ -1135,6 +1137,32 @@
     }
 
 
+
+    /* =====================================================
+       PEDIDOS
+       ===================================================== */
+
+    function obterPedidos() {
+        return ler(STORAGE_KEYS.pedidos, []);
+    }
+
+    function salvarPedidos(pedidos) {
+        return salvar(STORAGE_KEYS.pedidos, Array.isArray(pedidos) ? pedidos : []);
+    }
+
+    function adicionarPedido(pedido) {
+        const lista = obterPedidos();
+        const novo = {
+            id: pedido && pedido.id ? pedido.id : gerarId("PED"),
+            criadoEm: agora(),
+            atualizadoEm: agora(),
+            ...(pedido || {})
+        };
+        lista.unshift(novo);
+        salvarPedidos(lista);
+        return novo;
+    }
+
     /* =====================================================
        BACKUP DOS DADOS
        ===================================================== */
@@ -1166,6 +1194,9 @@
 
             compras:
                 obterCompras(),
+
+            pedidos:
+                obterPedidos(),
 
             configuracoes:
                 obterConfiguracoes(),
@@ -1296,6 +1327,10 @@
             }
 
 
+            if (Array.isArray(dados.pedidos)) {
+                salvar(STORAGE_KEYS.pedidos, dados.pedidos);
+            }
+
             if (
                 dados.configuracoes &&
                 typeof dados.configuracoes
@@ -1385,6 +1420,10 @@
         obterCompras,
         salvarCompras,
         adicionarCompra,
+
+        obterPedidos,
+        salvarPedidos,
+        adicionarPedido,
 
         obterContasReceber,
 

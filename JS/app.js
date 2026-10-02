@@ -63,6 +63,8 @@
 
         compras: "Compras",
 
+        pedidos: "Pedidos",
+
         clientes: "Clientes",
 
         financeiro: "Financeiro",
@@ -315,6 +317,14 @@
 
             window.JCCompras.atualizar();
 
+        }
+
+        if (
+            pagina === "pedidos" &&
+            window.PrimePedidos &&
+            typeof window.PrimePedidos.render === "function"
+        ) {
+            window.PrimePedidos.render();
         }
 
         if (

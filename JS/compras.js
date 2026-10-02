@@ -547,8 +547,8 @@
         }
         if (pagamento === "prazo" && !dataValidaISOCompra(vencimento)) { alert("Informe a data de vencimento da compra a prazo."); return; }
 
-        const valorTotal = quantidade * custo;
-        const lucroUnitario = venda - custo;
+        const valorTotal = Math.round((quantidade * custo + Number.EPSILON) * 100) / 100;
+        const lucroUnitario = Math.round((venda - custo + Number.EPSILON) * 100) / 100;
         const margemPercentual = venda > 0 ? (lucroUnitario / venda) * 100 : 0;
         const recebidaAgora = situacao === "recebida";
         let entrada = null;
@@ -577,6 +577,7 @@
             produtoId: produto.id,
             produtoCodigo: produto.codigo || "",
             produtoNome: produto.nome || "",
+            categoria: produto.categoria || "Sem categoria",
             quantidade: quantidade,
             quantidadeRecebida: recebidaAgora ? quantidade : 0,
             situacao: recebidaAgora ? "recebida" : "transito",
@@ -657,9 +658,25 @@
         const tabela = document.getElementById("listaCompras");
         if (!tabela) return;
 
-        const compras = obterCompras().slice().sort(function (a, b) {
+        const todasCompras = obterCompras().slice().sort(function (a, b) {
             return new Date(b.data || 0) - new Date(a.data || 0);
         });
+        const categorias = {};
+        todasCompras.forEach(function (c) {
+            const cat = String(c.categoria || (JCProdutos.buscarPorId(c.produtoId)?.categoria) || "Sem categoria").trim() || "Sem categoria";
+            categorias[cat] = (categorias[cat] || 0) + 1;
+        });
+        const categoriaHost = document.getElementById("comprasCategorias");
+        const filtroAtual = window.__primeCompraCategoriaFiltro || "";
+        if (categoriaHost) {
+            categoriaHost.innerHTML = '<div class="prime-cat-head"><strong>📁 Compras por categoria</strong><button type="button" class="prime-cat-clear" data-cat="">Todas</button></div>' +
+                '<div class="prime-cat-grid">' + Object.keys(categorias).sort().map(function(cat){
+                    const ativo = cat === filtroAtual ? ' ativo' : '';
+                    return '<button type="button" class="prime-cat-folder'+ativo+'" data-cat="'+escaparHTML(cat)+'"><span>📁</span><b>'+escaparHTML(cat)+'</b><small>'+categorias[cat]+' compra(s)</small></button>';
+                }).join('') + '</div>';
+            categoriaHost.querySelectorAll('[data-cat]').forEach(function(btn){ btn.addEventListener('click', function(){ window.__primeCompraCategoriaFiltro = btn.dataset.cat || ''; renderizarHistorico(); }); });
+        }
+        const compras = filtroAtual ? todasCompras.filter(function(c){ return String(c.categoria || (JCProdutos.buscarPorId(c.produtoId)?.categoria) || "Sem categoria").trim() === filtroAtual; }) : todasCompras;
 
         const pastaTotal = document.getElementById("comprasTotalPasta");
         if (pastaTotal) pastaTotal.textContent = compras.length;
@@ -683,6 +700,7 @@
                 <tr>
                     <td>${escaparHTML(formatarData(compra.data))}${compra.previsaoEntrega && pendente > 0 ? `<small class="historico-subinfo">Entrega: ${escaparHTML(formatarData(compra.previsaoEntrega))}</small>` : ""}</td>
                     <td><strong>${escaparHTML(compra.produtoNome)}</strong><small>${escaparHTML(compra.numero)}</small></td>
+                    <td>${escaparHTML(compra.categoria || (JCProdutos.buscarPorId(compra.produtoId)?.categoria) || "Sem categoria")}</td>
                     <td>${total}</td>
                     <td><strong>${recebido}</strong>${pendente > 0 ? `<small class="historico-subinfo">${pendente} pendente(s)</small>` : ""}</td>
                     <td>${obterEtiquetaSituacao(compra)}</td>
@@ -808,7 +826,7 @@
     function atualizarTotalEdicaoCompra() {
         const quantidade = numero(document.getElementById("editarCompraQuantidade")?.value);
         const custo = numero(document.getElementById("editarCompraCusto")?.value);
-        const total = quantidade * custo;
+        const total = Math.round((quantidade * custo + Number.EPSILON) * 100) / 100;
         const elemento = document.getElementById("editarCompraTotal");
         if (elemento) elemento.textContent = moeda(total);
     }

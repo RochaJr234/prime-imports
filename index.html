@@ -31,10 +31,10 @@
     <meta name="apple-mobile-web-app-title" content="Prime Imports">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="CSS/style.css?v=2.3.0">
-    <link rel="stylesheet" href="CSS/dashboard.css?v=2.3.0">
-    <link rel="stylesheet" href="CSS/responsive.css?v=2.3.0">
-    <link rel="stylesheet" href="CSS/prime-theme.css?v=1.0.0">
+    <link rel="stylesheet" href="css/style.css?v=2.3.0">
+    <link rel="stylesheet" href="css/dashboard.css?v=2.3.0">
+    <link rel="stylesheet" href="css/responsive.css?v=2.3.0">
+    <link rel="stylesheet" href="css/prime-theme.css?v=1.0.0">
      
 
 <style id="jc-cloud-guaranteed-style">
@@ -323,6 +323,15 @@
 
             </button>
 
+
+            <button
+                type="button"
+                class="nav-item"
+                data-page="pedidos"
+            >
+                <span class="nav-icon">📋</span>
+                <span>Pedidos</span>
+            </button>
 
             <button
                 type="button"
@@ -1927,6 +1936,8 @@
                         <div class="jc-folder-body">
 
 
+                    <div id="comprasCategorias" class="prime-categorias-compras"></div>
+
                     <div class="table-responsive">
 
                         <table class="data-table">
@@ -1941,6 +1952,10 @@
 
                                     <th>
                                         Produto
+                                    </th>
+
+                                    <th>
+                                        Categoria
                                     </th>
 
                                     <th>
@@ -1988,7 +2003,7 @@
                                 <tr>
 
                                     <td
-                                        colspan="11"
+                                        colspan="12"
                                         class="empty-table"
                                     >
                                         Nenhuma compra registrada.
@@ -2191,6 +2206,21 @@
      <!-- =================================================
      CLIENTES
      ================================================= -->
+
+            <!-- =================================================
+                 PEDIDOS
+                 ================================================= -->
+            <section class="page" id="page-pedidos" data-page-content="pedidos" hidden>
+                <div class="page-heading">
+                    <div>
+                        <span class="eyebrow">Comercial</span>
+                        <h1>Pedidos</h1>
+                        <p>Crie e acompanhe pedidos sem baixar o estoque. O estoque só é alterado quando a venda for registrada.</p>
+                    </div>
+                </div>
+                <div id="pedidosContent"></div>
+            </section>
+
 
 <section
     class="page"
@@ -2786,8 +2816,8 @@
             <span id="jcCloudStatus" class="jc-cloud-status">Não conectado</span>
         </div>
         <div class="jc-cloud-grid">
-            <label>URL do Supabase<input id="jcCloudUrl" type="url" value="https://hwokttvlmpkaroypbgat.supabase.co"></label>
-            <label>Chave pública<input id="jcCloudKey" type="password" value="sb_publishable_qcpKaN-1hnuclk0zHewoZg_1lEm6I00" autocomplete="off"></label>
+            <label>URL do Supabase<input id="jcCloudUrl" type="url" value="https://rxztexpthdytfixgpkmk.supabase.co"></label>
+            <label>Chave pública<input id="jcCloudKey" type="password" value="sb_publishable_xPO2QJWmLnT7ExE1D3lEnw_Xk7_l_Gq" autocomplete="off"></label>
             <label>E-mail da conta<input id="jcCloudEmail" type="email" placeholder="cliente@email.com" autocomplete="username"></label>
             <label>Senha<input id="jcCloudPass" type="password" placeholder="••••••••" autocomplete="current-password"></label>
         </div>
@@ -2872,7 +2902,8 @@
 <script src="JS/relatorios.js?v=1.1.0"></script>
 <script src="JS/despesas.js?v=1.0.0"></script>
 
-<script src="JS/app.js?v=3.3.2"></script>
+<script src="JS/pedidos.js?v=1.0.0"></script>
+<script src="JS/app.js?v=3.5.3"></script>
 
 <script>
 /* =========================================================

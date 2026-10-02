@@ -9,6 +9,7 @@
 
     const CFG_KEY = "prime_imports_nuvem_config";
     const LOCAL_UPDATED_KEY = "prime_imports_nuvem_updated_at";
+    const FIRST_SYNC_KEY = "prime_imports_nuvem_primeiro_acesso_v2";
     const SUPABASE_CDN =
         "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
@@ -27,11 +28,11 @@
 
 
     const DEFAULT_SUPABASE_URL =
-        "https://hwokttvlmpkaroypbgat.supabase.co";
+        "https://rxztexpthdytfixgpkmk.supabase.co";
 
 
     const DEFAULT_SUPABASE_PUBLISHABLE_KEY =
-        "sb_publishable_qcpKaN-1hnuclk0zHewoZg_1lEm6I00";
+        "sb_publishable_xPO2QJWmLnT7ExE1D3lEnw_Xk7_l_Gq";
 
 
     function getCfg() {
@@ -61,19 +62,28 @@
                Migração de URLs antigas/incorretas.
             */
 
-            if (!url || url !== DEFAULT_SUPABASE_URL) {
+            if (
+                !url ||
+                (
+                    url.includes("supabase.co") &&
+                    url !== DEFAULT_SUPABASE_URL
+                )
+            ) {
 
-                url = DEFAULT_SUPABASE_URL;
+                url =
+                    DEFAULT_SUPABASE_URL;
+
 
                 localStorage.setItem(
                     CFG_KEY,
                     JSON.stringify({
-                        url: DEFAULT_SUPABASE_URL,
-                        anonKey: DEFAULT_SUPABASE_PUBLISHABLE_KEY
+                        url: url,
+                        anonKey:
+                            saved.anonKey ||
+                            DEFAULT_SUPABASE_PUBLISHABLE_KEY
                     })
                 );
 
-                saved.anonKey = DEFAULT_SUPABASE_PUBLISHABLE_KEY;
             }
 
 
@@ -463,6 +473,32 @@
     }
 
 
+
+    const DATA_ARRAY_KEYS = ["produtos","clientes","vendas","financeiro","receber","compras","pedidos"];
+    function contarDados(payload) {
+        const p = payload || {};
+        return DATA_ARRAY_KEYS.reduce(function(total, chave){ return total + (Array.isArray(p[chave]) ? p[chave].length : 0); }, 0);
+    }
+    async function registroNuvemAtual() {
+        const s = await session();
+        if (!s || !s.user) throw new Error("Faça login para sincronizar.");
+        const {data,error} = await client.from("prime_imports_nuvem").select("payload,updated_at").eq("user_id",s.user.id).maybeSingle();
+        if (error) throw error;
+        return data || null;
+    }
+    async function prepararPrimeiraSincronizacao() {
+        const s = await session(); if (!s || !s.user) return false;
+        const local = dadosLocais(); const localTotal = contarDados(local); const remote = await registroNuvemAtual();
+        if (!remote) { if (localTotal > 0) await enviarNuvem(true); localStorage.setItem(FIRST_SYNC_KEY,s.user.id); return true; }
+        const remoteTotal = contarDados(remote.payload || {});
+        const remoteTime = new Date(remote.updated_at || 0).getTime(); const localTime = new Date(localUpdatedAt()).getTime();
+        if (remoteTotal > 0 && localTotal === 0) { info("Dados encontrados na nuvem. Baixando antes de iniciar a sincronização...",false); const ok=await baixarNuvem(false,true); if(ok)localStorage.setItem(FIRST_SYNC_KEY,s.user.id); return ok; }
+        if (remoteTotal === 0 && localTotal > 0) { await enviarNuvem(true); localStorage.setItem(FIRST_SYNC_KEY,s.user.id); return true; }
+        if (remoteTime > localTime) { const ok=await baixarNuvem(false,true); if(ok)localStorage.setItem(FIRST_SYNC_KEY,s.user.id); return ok; }
+        if (localTime > remoteTime) await enviarNuvem(true);
+        localStorage.setItem(FIRST_SYNC_KEY,s.user.id); return true;
+    }
+
     /* =====================================================
        ENVIAR PARA A NUVEM
        ===================================================== */
@@ -492,6 +528,14 @@
             const payload =
                 dadosLocais();
 
+            const localTotal = contarDados(payload);
+            const existente = await registroNuvemAtual();
+            const remoteTotal = existente ? contarDados(existente.payload || {}) : 0;
+            if (existente && remoteTotal > 0 && localTotal === 0) {
+                console.warn("[Nuvem] Upload bloqueado: aparelho local vazio e nuvem possui dados.");
+                if (!silencioso) await baixarNuvem(false, true);
+                return false;
+            }
 
             const updatedAt =
                 localUpdatedAt();
@@ -575,7 +619,8 @@
        ===================================================== */
 
     async function baixarNuvem(
-        silencioso
+        silencioso,
+        forcar
     ) {
 
         try {
@@ -652,7 +697,8 @@
 
             if (
                 localTime > remoteTime &&
-                !silencioso
+                !silencioso &&
+                !forcar
             ) {
 
                 const ok =
@@ -1831,11 +1877,9 @@
 
 
             if (s) {
-
-                iniciarAutoSync();
-
+                const inicial = await prepararPrimeiraSincronizacao();
+                if (inicial) iniciarAutoSync();
                 await updateStatus();
-
             }
 
 
