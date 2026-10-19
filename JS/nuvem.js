@@ -26,13 +26,11 @@
         return new Date().toISOString();
     }
 
-
-    const DEFAULT_SUPABASE_URL =
-        "https://rxztexpthdytfixgpkmk.supabase.co";
-
+const DEFAULT_SUPABASE_URL =
+  "https://hwokttvlmpkaroypbgat.supabase.co";
 
     const DEFAULT_SUPABASE_PUBLISHABLE_KEY =
-        "sb_publishable_xPO2QJWmLnT7ExE1D3lEnw_Xk7_l_Gq";
+        "sb_publishable_qcpKaN-1hnuclk0zHewoZg_1lEm6I00";
 
 
     function getCfg() {
